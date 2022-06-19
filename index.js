@@ -67,6 +67,7 @@ fs.writeToFile(`./${fileName}`, data, (err) =>{
 }
 function init() {
     return inquirer.prompt(questions);
-    .then(response) => writeToFile('README.md', generateMarkdown(response)); 
 };
-init();
+init()
+.then(answers => generateMarkdown(answers))
+.then(generateREADME => writeToFile('README.md', generateREADME));
