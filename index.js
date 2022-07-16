@@ -57,10 +57,10 @@ const questions = [
     },
 ];
 function writeToFile(fileName, data) {
-    fs.writeToFile(`./${fileName}`, data, (err) =>{
+    fs.writeFile(`./${fileName}`, data, (err) => {
         if(err){
-        console.log(err);
-        return
+            console.log(err);
+            return
     };
     console.log('README')
 })
@@ -68,6 +68,7 @@ function writeToFile(fileName, data) {
 function init() {
     return inquirer.prompt(questions);
 };
+
 init()
 .then(answers => generateMarkdown(answers))
 .then(generateREADME => writeToFile('README.md', generateREADME))
