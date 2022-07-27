@@ -103,20 +103,20 @@ const questions = [
         },
     },
 ];
+
 function writeToFile(fileName, data) {
-    fs.writeFile(`./${fileName}`, data, (err) => {
+    fs.writeFile(fileName, generateMarkdown(data), function (err) {
         if(err){
-            console.log(err);
-            return
+            return console.log(err);
     };
-    console.log('README')
 })
 }
 function init() {
-    return inquirer.prompt(questions);
+    inquirer.prompt(questions).then((data) => {
+        console.log(JSON.stringify(data, null, " "));
+        data.getLicense = getLicense(data.license);
+        writeToFile("./example/README.md", data);
+    });
 };
 
-init()
-.then(answers => generateMarkdown(answers))
-.then(generateREADME => writeToFile('README.md', generateREADME))
-;
+init();
