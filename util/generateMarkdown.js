@@ -16,9 +16,9 @@ function generateMarkdown(data) {
   ## Description
   ${data.description}
   ## Usage
-  ${data.usuage}
+  ${data.usage}
   ## Installation
-  ${data.installion}
+  ${data.installation}
   ## Contribution
   ${data.contribution}
   ## Test
@@ -27,6 +27,8 @@ function generateMarkdown(data) {
   ${data.username}
   ## Email
   ${data.email}
+  ## License 
+  ${data.license}
 
 `;
 }

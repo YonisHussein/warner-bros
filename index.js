@@ -46,6 +46,12 @@ const questions = [
         validate: validateInput, 
     },
     {
+        type: 'checkbox',
+        message: 'Enter Table of Contents',
+        name:'table-of-contents',
+        choices: ['installation', 'usage', 'contributors', 'tests', 'questions']
+    },
+    {
         type: "input",
         name: "installation",
         message: "Please enter an explanation how to install the software, or commands for the program.",
@@ -68,31 +74,31 @@ const questions = [
             "Apache 2.0",
             "Boost Software 1.0",
             "MIT",
-            "Mozilla"
+            "Mozilla",
         ],
         validate: validateInput,
     },
     {
         type: "input",
-        name: "contributing",
+        name: "contribution",
         message: "How can users contribute to your project.",
         validate: validateInput,
     },
     {
         type: "input",
-        type: "tests",
+        name: "test",
         message: "Please enter any testing instructions you would like to provide for this project.",
         validate: validateInput,
     },
     {
         type: "input",
-        name: "userName",
+        name: "username",
         message: "What is you GitHub username?",
         validate: validateInput,
     },
     {
         type: "input",
-        name: "userEmail",
+        name: "email",
         message: "What is your Github email address that contributors may contact?",
         validate: function (value) {
             if(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)) {
@@ -105,18 +111,19 @@ const questions = [
 ];
 
 function writeToFile(fileName, data) {
-    fs.writeFile(fileName, generateMarkdown(data), function (err) {
+    fs.writeFile(`./${fileName}`, data, (err) => {
         if(err){
-            return console.log(err);
-    };
-})
+            console.log(err);
+            return
+        };
+        console.log('README')
+    })
 }
-function init() {
-    inquirer.prompt(questions).then((data) => {
-        console.log(JSON.stringify(data, null, " "));
-        data.getLicense = getLicense(data.license);
-        writeToFile("./example/README.md", data);
-    });
+function init(){
+    return inquirer.prompt(questions);
 };
 
-init();
+init()
+.then(answers => generateMarkdown(answers))
+.then(generateREADME => writeToFile('./example/README.md', generateREADME))
+;
